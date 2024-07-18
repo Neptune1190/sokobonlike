@@ -228,24 +228,48 @@ f..b..f
 f.....f
 fffffff`,
   map`
-ffffffffff
-fc......gf
-f.b....r.f
-f........f
-f....p...f
-f........f
-f........f
-f.r....b.f
-fg......cf
-ffffffffff`
+ffffffffffffff
+ffffffffffffff
+ffffffffffffff
+fffc......gfff
+fff.b....r.fff
+fff........fff
+fff....p...fff
+fff........fff
+fff........fff
+fff.r....b.fff
+fffg......cfff
+ffffffffffffff`,
+  map`
+fffffff
+fffffff
+fffffff
+fffpfff
+fffffff
+fffffff
+fffffff`
 ]
 setMap(levels[level])
 
 setPushables({
   [ player ]: [ box, redbox]
 })
-if (level >= 7) {
-  canportal == true
+
+if (level === 0) {
+  addText("Move using the \n w a s d keys", {
+    x: 3,
+    y: 1})
+}
+if (level === 7) {
+  addText("You can now shoot \nportals,using the \nl and k keys", {
+    x: 2,
+    y: 1})
+}
+
+if (level === 8) {
+  addText("You have won!", {
+    x: 2,
+    y: 1})
 }
 onInput("w", () => {
   getFirst(player).y -= 1
@@ -265,8 +289,8 @@ onInput("l", () => {
   if (existingBluePortal) {
     existingBluePortal.remove();
   }
-  if (canportal) {
-    addSprite(getFirst(player).x + 1, getFirst(player).y, blueportal)
+  if (canportal == true) {
+    addSprite(getFirst(player).x, getFirst(player).y, blueportal)
 }})
 
 onInput("k", () => {
@@ -274,8 +298,8 @@ onInput("k", () => {
     if (existingOrangePortal) {
       existingOrangePortal.remove();
   }
-  if (canportal) {
-    addSprite(getFirst(player).x - 1, getFirst(player).y, orangeportal)
+  if (canportal == true) {
+    addSprite(getFirst(player).x, getFirst(player).y, orangeportal)
 }})
 
 afterInput(() => {
@@ -285,7 +309,11 @@ afterInput(() => {
   const redfinish = tilesWith(redgoal, redbox).length
   const playerblue = tilesWith(blueportal, player).length
   const playerorange = tilesWith(orangeportal, player).length
-  if (pathsfinished === numgoal && redfinish === redgoals) {
+  if (level >= 7) {
+  canportal = true
+  }
+  if (pathsfinished === numgoal && redfinish === redgoals && level < 8) {
+    clearText()
     level = level + 1
     setMap(levels[level])
   }
