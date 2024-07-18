@@ -18,6 +18,8 @@ const numgoal = tilesWith(goal).length;
 const pathsfinished = tilesWith(goal, box).length;
 const blueportal = "l"
 const orangeportal = "k"
+const pinkwarp = "o"
+const greenwarp = "i"
 let canportal = false
 setLegend(
   [ player, bitmap`
@@ -155,13 +157,47 @@ CCCCCCCCCCCCCCCC` ] ,
 ..999999999999..
 ..999999999999..
 ...9999999999...
+................` ],
+  [ pinkwarp, bitmap`
+................
+...8888888888...
+..888888888888..
+..888888888888..
+..888888888888..
+..888888888888..
+..888888888888..
+..888888888888..
+..888888888888..
+..888888888888..
+..888888888888..
+..888888888888..
+..888888888888..
+..888888888888..
+...8888888888...
+................` ],
+  [ greenwarp, bitmap`
+................
+...DDDDDDDDDD...
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+..DDDDDDDDDDDD..
+...DDDDDDDDDD...
 ................` ]
   
 )
 
 setSolids([ player, floor, box, redbox ])
 
-let level = 11
+let level = 13
 const levels = [
   map`
 fffff
@@ -286,6 +322,55 @@ ffff........fffff
 ffffffffff.ffffff
 fffffffffffffffff`,
   map`
+ffffffffffffffff
+f..............f
+f.c....ff....g.f
+f......ff......f
+f......ff......f
+f....b.ff.r....f
+f......ff......f
+f.ffffffffffff.f
+f.ffffffffffff.f
+f......ff......f
+f....r.ff.b....f
+f......ff......f
+f......ff......f
+f.g....ff....c.f
+fp.............f
+ffffffffffffffff`,
+  map`
+fffffffffffff
+f...........f
+f...........f
+fop..r.....cf
+f...........f
+f...........f
+fffffffffffff
+f...........f
+f...........f
+fi...b.....gf
+f...........f
+f...........f
+fffffffffffff`,
+  map`
+fffffffffffffff
+ffffffffff.ffff
+f............cf
+f...........fof
+f.f...f..ff.f.f
+f.f...f..ff...f
+f.f.b.f..f....f
+f.f...f...f...f
+f.f...f...f...f
+fpf...f...f...f
+f.f...f...f...f
+f.f...f...f...f
+f.f...f...f...f
+f.f.r.f.b.f.r.f
+f.f.g.f.c.f.g.f
+fi....f...f...f
+fffffffffffffff`,
+  map`
 fffffff
 fffffff
 fffffff
@@ -311,11 +396,6 @@ if (level === 7) {
     y: 1})
 }
 
-if (level === 11) {
-  addText("You have won!", {
-    x: 2,
-    y: 1})
-}
 onInput("w", () => {
   getFirst(player).y -= 1
 })
@@ -356,10 +436,12 @@ afterInput(() => {
   const playerorange = tilesWith(orangeportal, player).length
   const existingOrangePortal = getFirst(orangeportal);
   const existingBluePortal = getFirst(blueportal);
+  const playerpink = tilesWith(pinkwarp, player).length
+  const playergreen = tilesWith(greenwarp, player).length
   if (level >= 7) {
   canportal = true
   }
-  if (pathsfinished === numgoal && redfinish === redgoals && level < 11 ) {
+  if (pathsfinished === numgoal && redfinish === redgoals && level < 14 ) {
     clearText()
     level = level + 1
     setMap(levels[level])
@@ -376,4 +458,21 @@ afterInput(() => {
     getFirst(player).y = getFirst(blueportal).y
     setSolids([ player, floor, box, redbox ])
   }
+  if (playerpink === 1) {
+    setSolids([ floor, box, redbox ])
+    getFirst(player).x = getFirst(greenwarp).x
+    getFirst(player).y = getFirst(greenwarp).y
+    setSolids([ player, floor, box, redbox ])
+  }
+  if (playergreen === 1) {
+    setSolids([ floor, box, redbox ])
+    getFirst(player).x = getFirst(pinkwarp).x
+    getFirst(player).y = getFirst(pinkwarp).y
+    setSolids([ player, floor, box, redbox ])
+  }
+  if (level === 14) {
+  addText("You win!", {
+    x: 7,
+    y: 1})
+}
 })
