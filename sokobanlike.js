@@ -20,6 +20,10 @@ const blueportal = "l"
 const orangeportal = "k"
 const pinkwarp = "o"
 const greenwarp = "i"
+const redwarp = "a"
+const yellowwarp = "d"
+const graywarp = "z"
+const lgraywarp = "y"
 let canportal = false
 setLegend(
   [ player, bitmap`
@@ -73,6 +77,23 @@ CCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCC` ] ,
+  [ redbox, bitmap`
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333
+3333333333333333` ],
   [ goal, bitmap`
 9999999999999999
 9999999999999999
@@ -107,23 +128,6 @@ CCCCCCCCCCCCCCCC` ] ,
 5555555555555555
 5555555555555555
 5555555555555555` ],
-  [ redbox, bitmap`
-3333333333333333
-3333333333333333
-3333333333333333
-3333333333333333
-3333333333333333
-3333333333333333
-3333333333333333
-3333333333333333
-3333333333333333
-3333333333333333
-3333333333333333
-3333333333333333
-3333333333333333
-3333333333333333
-3333333333333333
-3333333333333333` ],
   [ blueportal, bitmap`
 ................
 ...5555555555...
@@ -191,13 +195,81 @@ CCCCCCCCCCCCCCCC` ] ,
 ..DDDDDDDDDDDD..
 ..DDDDDDDDDDDD..
 ...DDDDDDDDDD...
-................` ]
+................` ],
+  [ yellowwarp, bitmap`
+................
+...6666666666...
+..666666666666..
+..666666666666..
+..666666666666..
+..666666666666..
+..666666666666..
+..666666666666..
+..666666666666..
+..666666666666..
+..666666666666..
+..666666666666..
+..666666666666..
+..666666666666..
+...6666666666...
+................` ],
+  [ redwarp, bitmap`
+................
+...3333333333...
+..333333333333..
+..333333333333..
+..333333333333..
+..333333333333..
+..333333333333..
+..333333333333..
+..333333333333..
+..333333333333..
+..333333333333..
+..333333333333..
+..333333333333..
+..333333333333..
+...3333333333...
+................` ],
+  [ graywarp, bitmap`
+................
+...LLLLLLLLLL...
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+..LLLLLLLLLLLL..
+...LLLLLLLLLL...
+................` ],
+  [ lgraywarp, bitmap`
+................
+...1111111111...
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+..111111111111..
+...1111111111...
+................` ],
   
 )
 
 setSolids([ player, floor, box, redbox ])
 
-let level = 13
+let level = 0
 const levels = [
   map`
 fffff
@@ -371,6 +443,69 @@ f.f.g.f.c.f.g.f
 fi....f...f...f
 fffffffffffffff`,
   map`
+ffffffffffffffffffff
+fo........f.......if
+f.........f........f
+f.........f........f
+f.........f........f
+f.........f........f
+f.........f........f
+f.........f........f
+f.........f........f
+f........zfa.......f
+ffffffffffffffffffff
+f........dfy.......f
+f.........f.b......f
+f.........f........f
+f....p....f........f
+f.........f........f
+f.........f........f
+f.........f........f
+f.........f.......gf
+ffffffffffffffffffff`,
+  map`
+fffffffffffffffffffff
+fc........ff.......gf
+f.b.......ff......r.f
+f.........ff........f
+f....fffff..fffff...f
+f....fgf......fcf...f
+f....f.f......f.f...f
+f....fbf......frf...f
+f....f.f......f.f...f
+f....fof......faf...f
+f....fff......fff...f
+f...................f
+f..........p........f
+f...................f
+f....f..........f...f
+f....dffffffffffi...f
+f...................f
+f...................f
+f.r...............b.f
+fg.........f.......cf
+fffffffffffffffffffff`,
+  map`
+fffffffff
+ffff.ffff
+fagr.rgoy
+f.f...rff
+f.......f
+fp..c...f
+f.......f
+fff...fff
+ficb.bcdz
+ffff.ffff
+fffffffff`,
+  map`
+fffff
+fpbgf
+fffff`,
+  map`
+fffff
+fprcf
+fffff`,
+  map`
 fffffff
 fffffff
 fffffff
@@ -426,7 +561,9 @@ onInput("k", () => {
   if (canportal == true) {
     addSprite(getFirst(player).x, getFirst(player).y, orangeportal)
 }})
-
+onInput("j", () => {
+  setMap(levels[level])
+})
 afterInput(() => {
   const numgoal = tilesWith(goal).length;
   const pathsfinished = tilesWith(goal, box).length;
@@ -438,10 +575,14 @@ afterInput(() => {
   const existingBluePortal = getFirst(blueportal);
   const playerpink = tilesWith(pinkwarp, player).length
   const playergreen = tilesWith(greenwarp, player).length
+  const playerred = tilesWith(redwarp, player).length
+  const playeryellow = tilesWith(yellowwarp, player).length
+  const playergray = tilesWith(graywarp, player).length
+  const playerlgray = tilesWith(lgraywarp, player).length
   if (level >= 7) {
   canportal = true
   }
-  if (pathsfinished === numgoal && redfinish === redgoals && level < 14 ) {
+  if (pathsfinished === numgoal && redfinish === redgoals && level < 19 ) {
     clearText()
     level = level + 1
     setMap(levels[level])
@@ -470,7 +611,31 @@ afterInput(() => {
     getFirst(player).y = getFirst(pinkwarp).y
     setSolids([ player, floor, box, redbox ])
   }
-  if (level === 14) {
+  if (playeryellow === 1) {
+    setSolids([ floor, box, redbox ])
+    getFirst(player).x = getFirst(redwarp).x
+    getFirst(player).y = getFirst(redwarp).y
+    setSolids([ player, floor, box, redbox ])
+  }
+  if (playerred === 1) {
+    setSolids([ floor, box, redbox ])
+    getFirst(player).x = getFirst(yellowwarp).x
+    getFirst(player).y = getFirst(yellowwarp).y
+    setSolids([ player, floor, box, redbox ])
+  }
+  if (playerlgray === 1) {
+    setSolids([ floor, box, redbox ])
+    getFirst(player).x = getFirst(graywarp).x
+    getFirst(player).y = getFirst(graywarp).y
+    setSolids([ player, floor, box, redbox ])
+  }
+  if (playergray === 1) {
+    setSolids([ floor, box, redbox ])
+    getFirst(player).x = getFirst(lgraywarp).x
+    getFirst(player).y = getFirst(lgraywarp).y
+    setSolids([ player, floor, box, redbox ])
+  }
+  if (level === 19) {
   addText("You win!", {
     x: 7,
     y: 1})
