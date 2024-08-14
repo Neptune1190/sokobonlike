@@ -27,22 +27,22 @@ const lgraywarp = "y"
 let canportal = false
 setLegend(
   [ player, bitmap`
-0202020202020202
-2020202020202020
-0202020202020202
-2020202020202020
-0202020202020202
-2020202020202020
-0202020202020202
-2020202020202020
-0202020202020202
-2020202020202020
-0202020202020202
-2020202020202020
-0202020202020202
-2020202020202020
-0202020202020202
-2020202020202020` ] ,
+6666666666666666
+6666666666666666
+6660666666660666
+6660666666660666
+6660666666660666
+6660666666660666
+6666666666666666
+6666666666666666
+6666666666666666
+6660666666660666
+6666000000006666
+6666666666666666
+6666666666666666
+6666666666666666
+6666666666666666
+6666666666666666` ] ,
   [ floor, bitmap`
 1111111111111111
 1111111111111111
@@ -506,6 +506,73 @@ fffff
 fprcf
 fffff`,
   map`
+fffffffff
+f.......f
+f.......f
+f..f.f..f
+fp.rgr..f
+f..fbf..f
+f.......f
+fc.....cf
+fffffffff`,
+  map`
+fffffffff
+fc...ffff
+fff..ffff
+f....ffff
+f.rfpffff
+f..ffffff
+f.rffffff
+f......cf
+fffffffff`,
+  map`
+ffffffffff
+ff.ffff.ff
+for....baf
+ff......ff
+f....p...f
+fz......yf
+f........f
+ff......ff
+fdg....cif
+ffffffffff`,
+  map`
+fffffffffffff
+fi.f.cfa.f.gf
+f.ff..f..f..f
+f.f...f..bb.f
+f.r...f..f..f
+f....dfg...zf
+fffffffffffff
+fo...gf...fff
+f.....f.r.fff
+ff.p.ff.....f
+f..b..f.r..cf
+ff.f.ff...cyf
+fffffffffffff`,
+  map`
+fffffffffff
+f.c..f....f
+f....f....f
+f....f....f
+fo...f....f
+fp...br...f
+f....f...if
+f....f....f
+f....f....f
+f....f...gf
+fffffffffff`,
+  map`
+fffffffff
+fc..f...f
+f...f.b.f
+f...f...f
+fa.pf..df
+f...f...f
+f.r.f...f
+f...f..gf
+fffffffff`,
+  map`
 fffffff
 fffffff
 fffffff
@@ -582,7 +649,7 @@ afterInput(() => {
   if (level >= 7) {
   canportal = true
   }
-  if (pathsfinished === numgoal && redfinish === redgoals && level < 19 ) {
+  if (pathsfinished === numgoal && redfinish === redgoals && level < 25 ) {
     clearText()
     level = level + 1
     setMap(levels[level])
@@ -635,7 +702,7 @@ afterInput(() => {
     getFirst(player).y = getFirst(lgraywarp).y
     setSolids([ player, floor, box, redbox ])
   }
-  if (level === 19) {
+  if (level === 25) {
   addText("You win!", {
     x: 7,
     y: 1})
